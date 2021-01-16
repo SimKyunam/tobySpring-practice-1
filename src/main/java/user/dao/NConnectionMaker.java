@@ -1,3 +1,5 @@
+package user.dao;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -6,7 +8,7 @@ import java.sql.SQLException;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
-public class NConnectionMaker implements ConnectionMaker{
+public class NConnectionMaker implements DataSource {
     @Override
     public Connection makeConnection() throws ClassCastException, SQLException {
         return null;
