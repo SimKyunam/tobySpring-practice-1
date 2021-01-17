@@ -13,8 +13,8 @@ import user.dao.UserDao;
  */
 class UserDaoTest {
     public static void main(String[] args) {
-//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
         UserDao beanDao1 = context.getBean("userDao", UserDao.class);
         UserDao beanDao2 = context.getBean("userDao", UserDao.class);
         System.out.println(beanDao1);
