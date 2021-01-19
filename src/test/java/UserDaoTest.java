@@ -41,8 +41,6 @@ class UserDaoTest {
 
     @BeforeEach
     public void setUp(){
-        System.out.println(this.context);
-        System.out.println(this);
         this.dao = context.getBean("userDao", UserDao.class);
 
         user1 = new User("gyumee", "박성철", "springno1");
