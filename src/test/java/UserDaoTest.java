@@ -31,13 +31,13 @@ import java.sql.SQLException;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations="/applicationContext.xml")
+//@ExtendWith(SpringExtension.class)
+//@ContextConfiguration(locations="/test-applicationContext.xml")
 class UserDaoTest {
 //    @Autowired
 //    private ApplicationContext context;
 
-    @Autowired
+//    @Autowired
     private UserDao dao;
     private User user1;
     private User user2;
@@ -46,6 +46,7 @@ class UserDaoTest {
     @BeforeEach
     public void setUp(){
         //this.dao = context.getBean("userDao", UserDao.class);
+        dao = new UserDao();
         DataSource dataSource = new SingleConnectionDataSource("jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC", "root", "root", true);
         dao.setDataSource(dataSource);
 
