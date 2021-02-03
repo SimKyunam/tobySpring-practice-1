@@ -56,7 +56,7 @@ class UserDaoTest {
     }
 
     @Test
-    @DirtiesContext
+//    @DirtiesContext //컨텍스트 설정이 다른 경우 사용 (클래스, 메소드 가능)
     public void addAndGet() throws SQLException {
         dao.deleteAll();
         assertThat(dao.getCount(), equalTo(0));
