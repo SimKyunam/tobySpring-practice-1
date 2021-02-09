@@ -7,14 +7,15 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
 
+    <bean id="userDao" class="user.dao.UserDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" >
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC" />
         <property name="username" value="root"/>
         <property name="password" value="root" />
-    </bean>
-    <bean id="userDao" class="user.dao.UserDao">
-        <property name="dataSource" ref="dataSource"/>
     </bean>
 
 </beans>

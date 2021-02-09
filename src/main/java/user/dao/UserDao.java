@@ -16,8 +16,12 @@ import javax.sql.DataSource;
  */
 public class UserDao {
     private DataSource dataSource;
+    private JdbcContext jdbcContext;
 
     public void setDataSource(DataSource dataSource){
+        this.jdbcContext = new JdbcContext();
+        this.jdbcContext.setDataSource(dataSource);
+
         this.dataSource = dataSource;
     }
 
@@ -30,24 +34,7 @@ public class UserDao {
     }
 
     public void add(final User user) throws SQLException {
-        //내부 클레스 사용
-//        class AddStatement implements StatementStrategy{
-//            @Override
-//            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-//                PreparedStatement ps =
-//                        c.prepareStatement("insert into users(id, name, password) values(?,?,?)");
-//                ps.setString(1, user.getId());
-//                ps.setString(2, user.getName());
-//                ps.setString(3, user.getPassword());
-//
-//                return ps;
-//            }
-//        }
-//
-//        StatementStrategy st = new AddStatement();
-//        jdbcContextWithStatementStrategy(st);
-
-        jdbcContextWithStatementStrategy(new StatementStrategy() {
+        this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
                 PreparedStatement ps =
@@ -108,20 +95,8 @@ public class UserDao {
     }
 
     public void deleteAll() throws SQLException{
-        //Try-With-Resources 사용 jdk1.7부터 사용 가능
-//        try(Connection c = dataSource.getConnection();
-//            PreparedStatement ps = c.prepareStatement("delete from users");
-//        ){
-//            ps.executeUpdate();
-//        }catch(SQLException e) {
-//            throw e;
-//        }
-
-//        StatementStrategy st = new DeleteAllStatement();
-//        jdbcContextWithStatementStrategy(st);
-
         //익명 클레스
-        jdbcContextWithStatementStrategy(new StatementStrategy() {
+        this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
             @Override
             public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
                 return c.prepareStatement("delete from users");
@@ -161,24 +136,6 @@ public class UserDao {
                 }catch (SQLException e){
                 }
             }
-        }
-    }
-
-    public void jdbcContextWithStatementStrategy(StatementStrategy stmt) throws SQLException{
-        Connection c = null;
-        PreparedStatement ps = null;
-
-        try{
-            c = dataSource.getConnection();
-
-            ps = stmt.makePreparedStatement(c);
-
-            ps.executeUpdate();
-        }catch(SQLException e) {
-            throw e;
-        }finally{
-            if(ps != null){try {ps.close();} catch(SQLException e){}}
-            if(c != null){try {c.close();} catch(SQLException e){}}
         }
     }
 }
