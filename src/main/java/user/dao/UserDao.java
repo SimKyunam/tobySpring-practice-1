@@ -21,22 +21,22 @@ import javax.sql.DataSource;
  * Github : https://github.com/SimKyunam
  */
 public class UserDao {
-    private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
     public void setDataSource(DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-
-        this.dataSource = dataSource;
     }
 
-    public UserDao(){
-
+    private RowMapper<User> userMapper = new RowMapper<User>() {
+        @Override
+        public User mapRow(ResultSet rs, int i) throws SQLException {
+            User user = new User();
+            user.setId(rs.getString("id"));
+            user.setName(rs.getString("name"));
+            user.setPassword(rs.getString("password"));
+            return user;
+        }
     };
-
-    public UserDao(DataSource dataSource){
-        this.dataSource = dataSource;
-    }
 
     public void add(final User user) {
         this.jdbcTemplate.update("insert into users(id, name, password) values(?, ?, ?)",
@@ -46,59 +46,19 @@ public class UserDao {
     public User get(String id) {
         return this.jdbcTemplate.queryForObject("select * from users where id = ?"
             , new Object[]{id}
-            , new RowMapper<User>() {
-                @Override
-                public User mapRow(ResultSet rs, int i) throws SQLException {
-                    User user = new User();
-                    user.setId(rs.getString("id"));
-                    user.setName(rs.getString("name"));
-                    user.setPassword(rs.getString("password"));
-                    return user;
-                }
-            });
+            , this.userMapper);
     }
 
     public void deleteAll() {
-        //익명 클레스
-//        this.jdbcTemplate.update(new PreparedStatementCreator() {
-//            @Override
-//            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-//                return con.prepareStatement("delete from users");
-//            }
-//        });
-
         this.jdbcTemplate.update("delete from users");
     }
 
     public int getCount() {
-        //익명 클레스
-//        return this.jdbcTemplate.query(new PreparedStatementCreator() {
-//            @Override
-//            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-//                return con.prepareStatement("select count(*) from users");
-//            }
-//        }, new ResultSetExtractor<Integer>() {
-//            @Override
-//            public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
-//                rs.next();
-//                return rs.getInt(1);
-//            }
-//        });
-
         return this.jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
     }
 
     public List<User> getAll(){
         return this.jdbcTemplate.query("select * from users order by id"
-            , new RowMapper<User>() {
-                @Override
-                public User mapRow(ResultSet rs, int i) throws SQLException {
-                    User user = new User();
-                    user.setId(rs.getString("id"));
-                    user.setName(rs.getString("name"));
-                    user.setPassword(rs.getString("password"));
-                    return user;
-                }
-            });
+                , this.userMapper);
     }
 }
