@@ -61,11 +61,11 @@ class UserServiceTest {
 
         userService.upgradeLevels();
 
-        checkLevel(users.get(0), false);
-        checkLevel(users.get(1), true);
-        checkLevel(users.get(2), false);
-        checkLevel(users.get(3), true);
-        checkLevel(users.get(4), false);
+        checkLevelUpgraded(users.get(0), false);
+        checkLevelUpgraded(users.get(1), true);
+        checkLevelUpgraded(users.get(2), false);
+        checkLevelUpgraded(users.get(3), true);
+        checkLevelUpgraded(users.get(4), false);
     }
 
     @Test
@@ -86,12 +86,46 @@ class UserServiceTest {
         assertThat(userWithoutLevelRead.getLevel(), is(userWithoutLevel.getLevel()));
     }
 
-    private void checkLevel(User user, boolean upgraded) {
+    private void checkLevelUpgraded(User user, boolean upgraded) {
         User userUpdate = userDao.get(user.getId());
         if(upgraded){
             assertThat(userUpdate.getLevel(), is(user.getLevel().nextLevel()));
         }else{
             assertThat(userUpdate.getLevel(), is(user.getLevel()));
         }
+    }
+
+    static class TestUserService extends UserService{
+        private String id;
+
+        private TestUserService(String id){
+            this.id = id;
+        }
+
+        protected void upgradeLevel(User user){
+            if(user.getId().equals(this.id)) throw new TestUserServiceException();
+            super.upgradeLevel(user);
+        }
+    }
+
+    static class TestUserServiceException extends RuntimeException{
+
+    }
+
+    @Test
+    public void upgradeAllOrNothing(){
+        UserService testUserService = new TestUserService(users.get(3).getId());
+        testUserService.setUserDao(this.userDao);
+        userDao.deleteAll();
+        for(User user : users) userDao.add(user);
+
+        try{
+            testUserService.upgradeLevels();
+            fail("TestUserServiceException expected");
+        }catch(TestUserServiceException e){
+
+        }
+
+        checkLevelUpgraded(users.get(1), false);
     }
 }
