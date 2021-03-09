@@ -11,6 +11,7 @@ import user.domain.Level;
 import user.domain.User;
 import user.policy.UserLevelUpgradePolicy;
 
+import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,6 +37,9 @@ class UserServiceTest {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    DataSource dataSource;
+
     List<User> users;
 
     @BeforeEach
@@ -55,7 +59,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void upgradeLevels(){
+    public void upgradeLevels() throws Exception{
         userDao.deleteAll();
         for(User user: users) userDao.add(user);
 
@@ -113,9 +117,10 @@ class UserServiceTest {
     }
 
     @Test
-    public void upgradeAllOrNothing(){
+    public void upgradeAllOrNothing() throws Exception{
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
+        testUserService.setDataSource(this.dataSource);
         userDao.deleteAll();
         for(User user : users) userDao.add(user);
 
