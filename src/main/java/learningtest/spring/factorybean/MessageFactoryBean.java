@@ -1,11 +1,13 @@
 package learningtest.spring.factorybean;
 
+import org.springframework.beans.factory.FactoryBean;
+
 /**
  * Created by mileNote on 2021-03-21
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
-public class MessageFactoryBean implements FactoryBean<Message>{
+public class MessageFactoryBean implements FactoryBean<Message> {
     String text;
 
     public void setText(String text) {

@@ -5,7 +5,7 @@ package learningtest.spring.factorybean;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
-public interface FactoryBean<T> {
+public interface FactoryBeanEx<T> {
     T getObject() throws Exception;
     Class<? extends T> getObjectType();
     boolean isSingleton();
