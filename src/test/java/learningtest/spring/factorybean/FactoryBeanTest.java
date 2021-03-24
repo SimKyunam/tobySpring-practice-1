@@ -24,13 +24,13 @@ class FactoryBeanTest {
     @Test
     public void getMessageFromFactoryBean(){
         Object message = context.getBean("message");
-        assertThat(message, is(Message.class));
+        assertThat(message.getClass(), is(Message.class));
         assertThat(((Message)message).getText(), is("Factory Bean"));
     }
 
     @Test
     public void getFactoryBean() throws Exception{
         Object factory = context.getBean("&message");
-        assertThat(factory, is(MessageFactoryBean.class));
+        assertThat(factory.getClass(), is(MessageFactoryBean.class));
     }
 }

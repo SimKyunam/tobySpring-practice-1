@@ -32,13 +32,7 @@ public class ReflectionTest {
         assertThat((Character)charAtMethod.invoke(name, 0), is('S'));
     }
 
-    @Test
-    public void simpleProxy(){
-        Hello hello =  new HelloTarget();
-        assertThat(hello.sayHello("Toby"), is("Hello Toby"));
-        assertThat(hello.sayHi("Toby"), is("Hi Toby"));
-        assertThat(hello.sayThankYou("Toby"), is("Thank You Toby"));
-    }
+
 
     @Test
     public void decorateProxy(){
