@@ -1,8 +1,8 @@
 package learningtest.jdk;
 
-import learningtest.proxy.Hello;
-import learningtest.proxy.HelloTarget;
-import learningtest.proxy.UppercaseHandler;
+import learningtest.jdk.proxy.Hello;
+import learningtest.jdk.proxy.HelloTarget;
+import learningtest.jdk.proxy.UppercaseHandler;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package learningtest.proxy;
+package learningtest.jdk.proxy;
 
 /**
  * Created by mileNote on 2021-03-20

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mail.MailSender;
@@ -181,8 +182,8 @@ class UserServiceTest {
         testUserService.setUserDao(this.userDao);
         testUserService.setMailSender(this.mailSender);
 
-        TxProxyFactoryBean txProxyFactoryBean = //팩토리 빈 자체를 가져와야 하므로 빈 이름에 &를 반드시 넣어야한다.
-            context.getBean("&userService", TxProxyFactoryBean.class); //테스트용 타깃 주입
+        ProxyFactoryBean txProxyFactoryBean = //팩토리 빈 자체를 가져와야 하므로 빈 이름에 &를 반드시 넣어야한다.
+            context.getBean("&userService", ProxyFactoryBean.class); //테스트용 타깃 주입
         txProxyFactoryBean.setTarget(testUserService);
         UserService txUserService = (UserService) txProxyFactoryBean.getObject();
 
