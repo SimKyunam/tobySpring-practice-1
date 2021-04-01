@@ -28,6 +28,10 @@
         <property name="mailSender" ref="mailSender"/>
     </bean>
 
+    <bean id="testUserService"
+            class="user.service.UserServiceTest$TestUserServiceImpl"
+            parent="userService"/>
+
     <bean id="userDao" class="user.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource"/>
     </bean>
