@@ -1,6 +1,7 @@
 package user.service;
 
 import handler.TransactionHandler;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,6 +9,7 @@ import org.mockito.ArgumentCaptor;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.TransientDataAccessException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.annotation.DirtiesContext;
@@ -165,6 +167,13 @@ class UserServiceTest {
             if(user.getId().equals(this.id)) throw new TestUserServiceException();
             super.upgradeLevel(user);
         }
+
+        public List<User> getAll(){
+            for(User user : super.getAll()){
+                super.update(user);
+            }
+            return null;
+        }
     }
 
     static class TestUserServiceException extends RuntimeException{
@@ -209,5 +218,12 @@ class UserServiceTest {
         public void deleteAll() { throw new UnsupportedOperationException(); }
         public User get(String id){ throw new UnsupportedOperationException(); }
         public int getCount(){ throw new UnsupportedOperationException(); }
+    }
+
+    @Test
+    public void readOnlyTransactionAttribute(){
+        Assertions.assertThrows(TransientDataAccessException.class, () -> {
+            testUserService.getAll();
+        });
     }
 }
