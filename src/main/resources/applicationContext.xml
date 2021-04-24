@@ -29,7 +29,8 @@
         tx태그를 사용할 경우
         - transactionManager는 트랜잭션 매니저 빈 아이디가 transactionManager가 있으면 생략 가능
     -->
-    <tx:advice id="transactionAdvice">
+
+    <!--<tx:advice id="transactionAdvice">
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
             <tx:method name="*" />
@@ -38,7 +39,9 @@
 
     <aop:config>
         <aop:advisor advice-ref="transactionAdvice" pointcut="bean(*Service)"/>
-    </aop:config>
+    </aop:config>-->
+
+    <tx:annotation-driven />
 
     <bean id="userService" class="user.service.UserServiceImpl">
         <property name="userDao" ref="userDao"/>

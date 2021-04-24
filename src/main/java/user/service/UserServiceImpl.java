@@ -2,6 +2,7 @@ package user.service;
 
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.transaction.annotation.Transactional;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
