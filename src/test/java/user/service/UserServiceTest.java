@@ -13,10 +13,12 @@ import org.springframework.dao.TransientDataAccessException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import user.dao.UserDao;
@@ -43,6 +45,8 @@ import static user.policy.UserLevelUpgradePolicyJdbc.MIN_RECOMMEND_FOR_GORD;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations="/test-applicationContext.xml")
+@Transactional
+@Rollback(false)
 class UserServiceTest {
     @Autowired
     UserService userService;
@@ -137,6 +141,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Rollback
     public void add(){
         userDao.deleteAll();
 
@@ -184,6 +189,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     public void upgradeAllOrNothing(){
         userDao.deleteAll();
         for(User user : users) userDao.add(user);
@@ -224,6 +230,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     public void readOnlyTransactionAttribute(){
         Assertions.assertThrows(TransientDataAccessException.class, () -> {
             testUserService.getAll();
@@ -231,16 +238,10 @@ class UserServiceTest {
     }
 
     @Test
+    @Rollback
     public void transactionSync(){
-        DefaultTransactionDefinition txDefinition = new DefaultTransactionDefinition();
-        TransactionStatus txStatus = transactionManager.getTransaction(txDefinition);
-
-        try{
-            userService.deleteAll();
-            userService.add(users.get(0));
-            userService.add(users.get(1));
-        } finally {
-            transactionManager.rollback(txStatus);
-        }
+        userService.deleteAll();
+        userService.add(users.get(0));
+        userService.add(users.get(1));
     }
 }
