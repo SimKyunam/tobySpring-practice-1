@@ -1,12 +1,15 @@
 package user.sqlservice;
 
+import org.springframework.stereotype.Service;
 import user.dao.UserDao;
 import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,18 +19,25 @@ import java.util.Map;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
+@Service
 public class XmlSqlService implements SqlService{
     public Map<String, String> sqlMap = new HashMap<String, String>();
 
-    public XmlSqlService() {
+    private String sqlmapFile;
+
+    public void setSqlmapFile(String sqlmapFile) {
+        this.sqlmapFile = sqlmapFile;
+    }
+
+    @PostConstruct
+    public void loadSql() {
         String contextPath = Sqlmap.class.getPackage().getName();
-        try{
+        try {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            InputStream is = UserDao.class.getResourceAsStream("sqlmap.xml");
-            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(is);
+            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(getXmlFile("sqlmap.xml"));
 
-            for(SqlType sql : sqlmap.getSql()){
+            for (SqlType sql : sqlmap.getSql()) {
                 sqlMap.put(sql.getKey(), sql.getValue());
             }
         } catch (JAXBException e) {
@@ -44,5 +54,10 @@ public class XmlSqlService implements SqlService{
         }else{
             return sql;
         }
+    }
+
+    private File getXmlFile(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return new File(classLoader.getResource(fileName).getFile());
     }
 }
