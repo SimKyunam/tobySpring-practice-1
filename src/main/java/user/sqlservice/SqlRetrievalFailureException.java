@@ -13,4 +13,6 @@ public class SqlRetrievalFailureException extends RuntimeException {
     public SqlRetrievalFailureException(String message, Throwable cause) {
         super(message, cause);
     }
+
+
 }
