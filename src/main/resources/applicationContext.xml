@@ -35,7 +35,7 @@
     </bean>
 
     <bean id="sqlReader" class="user.sqlservice.JaxbXmlSqlReader">
-        <property name="sqlmapFile" value="sqlmap.xml" />
+        <property name="sqlmapFile" value="mapper/sqlmap.xml" />
     </bean>
 
     <bean id="sqlRegistry" class="user.sqlservice.HashMapSqlRegistry"></bean>

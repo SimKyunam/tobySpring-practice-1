@@ -7,6 +7,7 @@ import user.sqlservice.jaxb.Sqlmap;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -27,8 +28,8 @@ public class JaxbXmlSqlReader implements SqlReader{
         try {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            InputStream is = UserDao.class.getResourceAsStream(sqlmapFile);
-            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(is);
+//            InputStream is = UserDao.class.getResourceAsStream(sqlmapFile);
+            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(getXmlFile(this.sqlmapFile));
 
             for (SqlType sql : sqlmap.getSql()) {
                 sqlRegistry.registerSql(sql.getKey(), sql.getValue());
@@ -36,5 +37,10 @@ public class JaxbXmlSqlReader implements SqlReader{
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private File getXmlFile(String fileName) {
+        ClassLoader classLoader = getClass().getClassLoader();
+        return new File(classLoader.getResource(fileName).getFile());
     }
 }
