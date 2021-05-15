@@ -16,7 +16,9 @@ import java.io.InputStream;
  * Github : https://github.com/SimKyunam
  */
 public class JaxbXmlSqlReader implements SqlReader{
-    private String sqlmapFile;
+    private static final String DEFAULT_SQLMAP_FILE = "mapper/sqlmap.xml";
+
+    private String sqlmapFile = DEFAULT_SQLMAP_FILE;
 
     public void setSqlmapFile(String sqlmapFile) {
         this.sqlmapFile = sqlmapFile;
@@ -28,7 +30,6 @@ public class JaxbXmlSqlReader implements SqlReader{
         try {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-//            InputStream is = UserDao.class.getResourceAsStream(sqlmapFile);
             Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(getXmlFile(this.sqlmapFile));
 
             for (SqlType sql : sqlmap.getSql()) {
