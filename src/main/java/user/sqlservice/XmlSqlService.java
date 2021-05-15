@@ -26,6 +26,13 @@ public class XmlSqlService implements SqlService, SqlRegistry, SqlReader{
     private SqlReader sqlReader;
     private SqlRegistry sqlRegistry;
 
+    public void setSqlReader(SqlReader sqlReader) {
+        this.sqlReader = sqlReader;
+    }
+
+    public void setSqlRegistry(SqlRegistry sqlRegistry) {
+        this.sqlRegistry = sqlRegistry;
+    }
 
     public void setSqlmapFile(String sqlmapFile) {
         this.sqlmapFile = sqlmapFile;
@@ -72,7 +79,8 @@ public class XmlSqlService implements SqlService, SqlRegistry, SqlReader{
         try {
             JAXBContext context = JAXBContext.newInstance(contextPath);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(getXmlFile("sqlmap.xml"));
+            InputStream is = UserDao.class.getResourceAsStream(sqlmapFile);
+            Sqlmap sqlmap = (Sqlmap) unmarshaller.unmarshal(is);
 
             for (SqlType sql : sqlmap.getSql()) {
                 sqlRegistry.registerSql(sql.getKey(), sql.getValue());

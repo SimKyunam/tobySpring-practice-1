@@ -33,9 +33,16 @@
         <property name="sqlService" ref="sqlService"/>
     </bean>
 
-    <bean id="sqlService" class="user.sqlservice.XmlSqlService">
+    <bean id="sqlService" class="user.sqlservice.BaseSqlService">
+        <property name="sqlReader" ref="sqlReader"/>
+        <property name="sqlRegistry" ref="sqlRegistry"/>
+    </bean>
+
+    <bean id="sqlReader" class="user.sqlservice.JaxbXmlSqlReader">
         <property name="sqlmapFile" value="sqlmap.xml" />
     </bean>
+
+    <bean id="sqlRegistry" class="user.sqlservice.HashMapSqlRegistry"></bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
