@@ -96,6 +96,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.codehaus.castor/com.springsource.org.castor -->
+        <dependency>
+            <groupId>org.codehaus.castor</groupId>
+            <artifactId>com.springsource.org.castor</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 <!--    <build>-->
 <!--        <plugins>-->
