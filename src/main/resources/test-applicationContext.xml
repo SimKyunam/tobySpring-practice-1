@@ -35,10 +35,14 @@
 
     <bean id="sqlService" class="user.sqlservice.OxmSqlService">
         <property name="unmarshaller" ref="unmarshaller"/>
+        <property name="sqlRegistry" ref="sqlRegistry"/>
         <!--        xml에서 추가한다면 이런식으로 넣으면 된다.-->
         <!--        <property name="sqlmap" value="classpath:mapper/sqlmap.xml"/>-->
         <!--        <property name="sqlmap" value="file:/opt/resource/sqlmap.xml"/>-->
         <!--        <property name="sqlmap" value="http://www.eprill.com/resources/sqlmap.xml"/>-->
+    </bean>
+
+    <bean id="sqlRegistry" class="issuetracker.ConcurrentHashMapSqlRegistry">
     </bean>
 
     <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
