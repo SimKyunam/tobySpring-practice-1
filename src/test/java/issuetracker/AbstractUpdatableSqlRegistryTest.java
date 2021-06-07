@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Github : https://github.com/SimKyunam
  */
 public abstract class AbstractUpdatableSqlRegistryTest {
-    UpdatableSqlRegistry sqlRegistry;
+    protected UpdatableSqlRegistry sqlRegistry;
 
     @BeforeEach
     public void setUp(){
