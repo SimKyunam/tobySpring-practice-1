@@ -28,7 +28,7 @@ public abstract class AbstractUpdatableSqlRegistryTest {
         sqlRegistry.registerSql("KEY3", "SQL3");
     }
 
-    abstract  protected UpdatableSqlRegistry createUpdatableSqlRegistry();
+    abstract protected UpdatableSqlRegistry createUpdatableSqlRegistry();
 
     @Test
     public void find(){

@@ -1,5 +1,7 @@
-package issuetracker.sqlservice;
+package user.sqlservice.updatable;
 
+import issuetracker.sqlservice.SqlUpdateFailureException;
+import issuetracker.sqlservice.UpdatableSqlRegistry;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import user.sqlservice.SqlNotFoundException;
@@ -12,7 +14,7 @@ import java.util.Map;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
-public class EmbeddedDbSqlRegistry implements UpdatableSqlRegistry{
+public class EmbeddedDbSqlRegistry implements UpdatableSqlRegistry {
     JdbcTemplate jdbc;
     public void setDataSource(DataSource dataSource){
         jdbc = new JdbcTemplate(dataSource);
