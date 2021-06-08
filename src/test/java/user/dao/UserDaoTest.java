@@ -31,7 +31,7 @@ import java.util.List;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations="/test-applicationContext.xml")
+@ContextConfiguration(classes = TestApplicationContext.class)
 class UserDaoTest {
     @Autowired
     private UserDao dao;

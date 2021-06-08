@@ -21,6 +21,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import user.dao.TestApplicationContext;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
@@ -44,7 +45,7 @@ import static user.policy.UserLevelUpgradePolicyJdbc.MIN_RECOMMEND_FOR_GORD;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations="/test-applicationContext.xml")
+@ContextConfiguration(classes = TestApplicationContext.class)
 @Transactional
 @Rollback(false)
 class UserServiceTest {
