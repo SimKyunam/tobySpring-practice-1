@@ -48,7 +48,7 @@ import static user.policy.UserLevelUpgradePolicyJdbc.MIN_RECOMMEND_FOR_GORD;
 @ContextConfiguration(classes = TestApplicationContext.class)
 @Transactional
 @Rollback(false)
-class UserServiceTest {
+public class UserServiceTest {
     @Autowired
     UserService userService;
 
@@ -169,7 +169,7 @@ class UserServiceTest {
         }
     }
 
-    static class TestUserServiceImpl extends UserServiceImpl {
+    public static class TestUserService extends UserServiceImpl {
         private String id = "madnite1";
 
         protected void upgradeLevel(User user){
