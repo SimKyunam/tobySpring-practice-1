@@ -37,9 +37,6 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @EnableTransactionManagement
 public class TestApplicationContext {
 
-    @Autowired
-    SqlService sqlService;
-
     @Bean
     public DataSource dataSource(){
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
@@ -60,10 +57,7 @@ public class TestApplicationContext {
 
     @Bean
     public UserDao userDao() {
-        UserDaoJdbc dao = new UserDaoJdbc();
-        dao.setDataSource(dataSource());
-        dao.setSqlService(this.sqlService);
-        return dao;
+        return new UserDaoJdbc();
     }
 
     @Bean
