@@ -1,4 +1,4 @@
-package user.service.updatable;
+package springbook.user.service.updatable;
 
 import issuetracker.AbstractUpdatableSqlRegistryTest;
 import issuetracker.sqlservice.SqlUpdateFailureException;

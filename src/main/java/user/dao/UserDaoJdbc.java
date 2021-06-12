@@ -3,6 +3,8 @@ package user.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import user.domain.Level;
 import user.domain.User;
 import user.sqlservice.SqlService;
@@ -10,7 +12,6 @@ import user.sqlservice.SqlService;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 import javax.sql.DataSource;
 
 /**
@@ -18,6 +19,7 @@ import javax.sql.DataSource;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
+@Repository("userDao")
 public class UserDaoJdbc implements UserDao{
 
     private JdbcTemplate jdbcTemplate;

@@ -1,6 +1,5 @@
 package user.policy;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;

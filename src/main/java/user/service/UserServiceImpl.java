@@ -1,8 +1,9 @@
 package user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Service;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
@@ -14,8 +15,13 @@ import java.util.List;
  * Blog : https://milenote.tistory.com
  * Github : https://github.com/SimKyunam
  */
+@Service("userService")
 public class UserServiceImpl implements UserService{
+
+    @Autowired
     private UserDao userDao;
+
+    @Autowired
     private MailSender mailSender;
 
     public void setUserDao(UserDao userDao){

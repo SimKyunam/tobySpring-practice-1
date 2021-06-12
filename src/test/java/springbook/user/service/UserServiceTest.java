@@ -1,33 +1,32 @@
-package user.service;
+package springbook.user.service;
 
-import handler.TransactionHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import user.dao.TestApplicationContext;
+import springbook.user.dao.AppContext;
+import springbook.user.dao.TestAppContext;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
+import user.service.MockMailSender;
+import user.service.UserService;
+import user.service.UserServiceImpl;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +44,7 @@ import static user.policy.UserLevelUpgradePolicyJdbc.MIN_RECOMMEND_FOR_GORD;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestApplicationContext.class)
+@ContextConfiguration(classes = {TestAppContext.class, AppContext.class})
 @Transactional
 @Rollback(false)
 public class UserServiceTest {
@@ -56,6 +55,7 @@ public class UserServiceTest {
     UserService testUserService;
 
     @Autowired
+    @Qualifier("userDao")
     UserDao userDao;
 
     @Autowired

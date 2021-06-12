@@ -1,4 +1,4 @@
-package user.dao;
+package springbook.user.dao;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -17,9 +17,9 @@ import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
-import user.dao.UserDao;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -31,8 +31,9 @@ import java.util.List;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestApplicationContext.class)
+@ContextConfiguration(classes = {TestAppContext.class, AppContext.class})
 class UserDaoTest {
+
     @Autowired
     private UserDao dao;
 

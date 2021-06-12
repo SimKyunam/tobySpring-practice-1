@@ -1,11 +1,11 @@
-package user.domain;
+package springbook.user.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.dao.DataAccessException;
+import user.domain.Level;
+import user.domain.User;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.CoreMatchers.*;

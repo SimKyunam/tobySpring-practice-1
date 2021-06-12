@@ -1,6 +1,5 @@
 package user.sqlservice;
 
-import user.dao.UserDao;
 import user.sqlservice.jaxb.SqlType;
 import user.sqlservice.jaxb.Sqlmap;
 
@@ -8,7 +7,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.File;
-import java.io.InputStream;
 
 /**
  * Created by mileNote on 2021-05-15
