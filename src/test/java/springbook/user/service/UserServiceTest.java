@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.TransientDataAccessException;
 import org.springframework.mail.MailSender;
@@ -246,5 +247,15 @@ public class UserServiceTest {
         userService.deleteAll();
         userService.add(users.get(0));
         userService.add(users.get(1));
+    }
+
+    @Autowired
+    DefaultListableBeanFactory bf;
+
+    @Test
+    public void beans(){
+        for(String n : bf.getBeanDefinitionNames()){
+            System.out.println(n + "\t " + bf.getBean(n).getClass().getName());
+        }
     }
 }

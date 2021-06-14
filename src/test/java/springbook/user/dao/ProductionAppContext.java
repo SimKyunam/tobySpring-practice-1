@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import springbook.user.service.UserServiceTest;
+import user.service.UserService;
 
 /**
  * Created by mileNote on 2021-06-14
