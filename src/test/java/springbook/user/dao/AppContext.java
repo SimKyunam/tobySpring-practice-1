@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -38,6 +39,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user.dao")
+@Import({SqlServiceContext.class, TestAppContext.class, ProductionAppContext.class})
 public class AppContext {
 
     @Bean
@@ -56,36 +58,5 @@ public class AppContext {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
-    }
-
-    @Bean
-    public SqlService sqlService(){
-        OxmSqlService sqlService = new OxmSqlService();
-        sqlService.setUnmarshaller(unmarshaller());
-        sqlService.setSqlRegistry(sqlRegistry());
-        return sqlService;
-    }
-
-    @Bean
-    public SqlRegistry sqlRegistry(){
-        EmbeddedDbSqlRegistry sqlRegistry = new EmbeddedDbSqlRegistry();
-        sqlRegistry.setDataSource(embeddedDatabase());
-        return sqlRegistry;
-    }
-
-    @Bean
-    public Unmarshaller unmarshaller(){
-        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        marshaller.setContextPath("user.sqlservice.jaxb");
-        return marshaller;
-    }
-
-    @Bean
-    public DataSource embeddedDatabase(){
-        return new EmbeddedDatabaseBuilder()
-                .setName("embeddedDatabase")
-                .setType(HSQL)
-                .addScript("classpath:updatable/sqlRegistrySchema.sql")
-                .build();
     }
 }

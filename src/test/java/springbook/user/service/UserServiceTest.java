@@ -12,6 +12,7 @@ import org.springframework.dao.TransientDataAccessException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -44,7 +45,8 @@ import static user.policy.UserLevelUpgradePolicyJdbc.MIN_RECOMMEND_FOR_GORD;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestAppContext.class, AppContext.class})
+@ActiveProfiles("test")
+@ContextConfiguration(classes = AppContext.class)
 @Transactional
 @Rollback(false)
 public class UserServiceTest {

@@ -15,6 +15,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import user.dao.UserDao;
@@ -31,7 +32,8 @@ import java.util.List;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {TestAppContext.class, AppContext.class})
+@ActiveProfiles("test")
+@ContextConfiguration(classes = AppContext.class)
 class UserDaoTest {
 
     @Autowired
