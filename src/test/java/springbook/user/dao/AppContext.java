@@ -3,14 +3,12 @@ package springbook.user.dao;
 import com.mysql.cj.jdbc.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -39,7 +37,8 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "user.dao")
-@Import({SqlServiceContext.class, TestAppContext.class, ProductionAppContext.class})
+@Import(SqlServiceContext.class)
+@PropertySource("/properties/database.properties")
 public class AppContext {
 
     @Bean
@@ -58,5 +57,31 @@ public class AppContext {
         DataSourceTransactionManager tm = new DataSourceTransactionManager();
         tm.setDataSource(dataSource());
         return tm;
+    }
+
+    @Configuration
+    @Profile("production")
+    public static class ProductionAppContext {
+        @Bean
+        public MailSender mailSender(){
+            JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+            mailSender.setHost("localhost");
+            return mailSender;
+        }
+    }
+
+    @Configuration
+    @Profile("test")
+    public static class TestAppContext {
+
+        @Bean
+        public UserService testUserService(){
+            return new UserServiceTest.TestUserService();
+        }
+
+        @Bean
+        public MailSender mailSender(){
+            return new DummyMailSender();
+        }
     }
 }

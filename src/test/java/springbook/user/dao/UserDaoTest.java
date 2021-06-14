@@ -32,7 +32,7 @@ import java.util.List;
  * Github : https://github.com/SimKyunam
  */
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("production")
+@ActiveProfiles("test")
 @ContextConfiguration(classes = AppContext.class)
 class UserDaoTest {
 

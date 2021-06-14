@@ -20,7 +20,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import springbook.user.dao.AppContext;
-import springbook.user.dao.TestAppContext;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
