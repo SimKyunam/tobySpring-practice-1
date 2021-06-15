@@ -1,32 +1,21 @@
-package springbook.user.dao;
+package user.dao;
 
-import com.mysql.cj.jdbc.Driver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.oxm.Unmarshaller;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import user.dao.UserDao;
-import user.dao.UserDaoJdbc;
+import user.service.UserServiceTest;
 import user.service.DummyMailSender;
 import user.service.UserService;
-import user.service.UserServiceImpl;
-import springbook.user.service.UserServiceTest;
-import user.sqlservice.OxmSqlService;
-import user.sqlservice.SqlRegistry;
-import user.sqlservice.SqlService;
-import user.sqlservice.updatable.EmbeddedDbSqlRegistry;
 
 import javax.sql.DataSource;
 
-import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.HSQL;
+import java.sql.Driver;
 
 
 /**
@@ -41,15 +30,37 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @PropertySource("/properties/database.properties")
 public class AppContext {
 
+    @Value("${db.driverClass}")
+    Class<? extends Driver> driverClass;
+
+    @Value("${db.url}")
+    String url;
+
+    @Value("${db.username}")
+    String username;
+
+    @Value("${db.password}")
+    String password;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer(){
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
     @Bean
     public DataSource dataSource(){
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(Driver.class);
-        dataSource.setUrl("jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        SimpleDriverDataSource ds = new SimpleDriverDataSource();
 
-        return dataSource;
+        ds.setDriverClass(this.driverClass);
+        ds.setUrl(this.url);
+        ds.setUsername(this.username);
+        ds.setPassword(this.password);
+//        dataSource.setDriverClass(Driver.class);
+//        dataSource.setUrl("jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC");
+//        dataSource.setUsername("root");
+//        dataSource.setPassword("root");
+
+        return ds;
     }
 
     @Bean

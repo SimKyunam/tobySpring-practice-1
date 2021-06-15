@@ -1,4 +1,4 @@
-package springbook.user.service;
+package user.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +19,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import springbook.user.dao.AppContext;
+import user.dao.AppContext;
 import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
-import user.service.MockMailSender;
-import user.service.UserService;
-import user.service.UserServiceImpl;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;

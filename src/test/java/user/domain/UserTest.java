@@ -1,10 +1,8 @@
-package springbook.user.domain;
+package user.domain;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import user.domain.Level;
-import user.domain.User;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 

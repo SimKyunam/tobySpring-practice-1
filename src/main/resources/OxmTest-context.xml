@@ -6,6 +6,6 @@
                         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="unmarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="contextPath" value="springbook.user.sqlservice.jaxb"/>
+        <property name="contextPath" value="user.user.sqlservice.jaxb"/>
     </bean>
 </beans>

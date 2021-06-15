@@ -1,4 +1,4 @@
-package springbook.user.dao;
+package user.dao;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -18,7 +18,6 @@ import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import user.dao.UserDao;
 import user.domain.Level;
 import user.domain.User;
 
