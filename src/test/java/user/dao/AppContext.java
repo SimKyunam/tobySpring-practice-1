@@ -1,5 +1,6 @@
 package user.dao;
 
+import annotation.EnableSqlService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import user.service.UserServiceTest;
 import user.service.DummyMailSender;
 import user.service.UserService;
+import user.sqlservice.sqlmap.SqlMapConfig;
+import user.sqlservice.sqlmap.UserSqlMapConfig;
 
 import javax.sql.DataSource;
 
@@ -24,9 +27,9 @@ import java.sql.Driver;
  * Github : https://github.com/SimKyunam
  */
 @Configuration
-@EnableTransactionManagement
 @ComponentScan(basePackages = "user.dao")
-@Import(SqlServiceContext.class)
+@EnableTransactionManagement
+@EnableSqlService
 @PropertySource("/properties/database.properties")
 public class AppContext {
 
@@ -50,15 +53,10 @@ public class AppContext {
     @Bean
     public DataSource dataSource(){
         SimpleDriverDataSource ds = new SimpleDriverDataSource();
-
         ds.setDriverClass(this.driverClass);
         ds.setUrl(this.url);
         ds.setUsername(this.username);
         ds.setPassword(this.password);
-//        dataSource.setDriverClass(Driver.class);
-//        dataSource.setUrl("jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC");
-//        dataSource.setUsername("root");
-//        dataSource.setPassword("root");
 
         return ds;
     }
@@ -94,5 +92,10 @@ public class AppContext {
         public MailSender mailSender(){
             return new DummyMailSender();
         }
+    }
+
+    @Bean
+    public SqlMapConfig sqlMapConfig(){
+        return new UserSqlMapConfig();
     }
 }

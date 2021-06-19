@@ -1,5 +1,6 @@
 package user.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -8,6 +9,7 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import user.sqlservice.OxmSqlService;
 import user.sqlservice.SqlRegistry;
 import user.sqlservice.SqlService;
+import user.sqlservice.sqlmap.SqlMapConfig;
 import user.sqlservice.updatable.EmbeddedDbSqlRegistry;
 
 import javax.sql.DataSource;
@@ -21,11 +23,15 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
  */
 @Configuration
 public class SqlServiceContext {
+    @Autowired
+    SqlMapConfig sqlMapConfig;
+
     @Bean
     public SqlService sqlService(){
         OxmSqlService sqlService = new OxmSqlService();
         sqlService.setUnmarshaller(unmarshaller());
         sqlService.setSqlRegistry(sqlRegistry());
+        sqlService.setSqlmap(this.sqlMapConfig.getSqlMapResource());
         return sqlService;
     }
 
